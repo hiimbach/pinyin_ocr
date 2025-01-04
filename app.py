@@ -14,6 +14,12 @@ class ImgToPinyin:
         self.lines = defaultdict(list)
         self.translator = Translator()
 
+        # Try easyocr for the first time to load the model
+        try:
+            self.reader.readtext(np.zeros((1, 1, 3), dtype=np.uint8))
+        except Exception as e:
+            st.error(f"Error loading EasyOCR model: {e}")
+
     async def ocr(self, img):
         # Convert PIL image to numpy array
         img_array = np.array(img)
